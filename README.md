@@ -54,11 +54,12 @@ EyeSeeU utilizes a range of technologies to provide its comprehensive functional
 To run this project locally, follow these steps:
 
 1. Clone this repository.
-2. Remove .example from .env and replace the credentials with your credentials.
-3. Install the required dependencies in both the frontend and backend folders usign `npm i` command in both folders 
+2. Change `"proxy": "https://eyeseeu.onrender.com"` with `"proxy": http://localhost:5000` in package.json in frontend folder.
+3. Remove .example from .env and replace the credentials with your credentials.
+4. Install the required dependencies in both the frontend and backend folders usign `npm i` command in both folders 
    (`cd backend` and `cd frontend`).
-4. Start the server using `node server.js` in the backend folder (`cd backend`).
-5. Start the React app using `npm start` in the frontend folder (`cd frontend`).
+5. Start the server using `node server.js` in the backend folder (`cd backend`).
+6. Start the React app using `npm start` in the frontend folder (`cd frontend`).
 
 ## License
 
