@@ -57,7 +57,7 @@ To run this project locally, follow these steps:
 2. Remove .example from .env and replace the credentials with your credentials.
 3. Install the required dependencies in both the frontend and backend folders usign `npm i` command in both folders 
    (`cd backend` and `cd frontend`).
-4. Start the server using `node backend/server.js` in the cloned repo.
+4. Start the server using `node server.js` in the backend folder (`cd backend`).
 5. Start the React app using `npm start` in the frontend folder (`cd frontend`).
 
 ## License
