@@ -54,7 +54,7 @@ EyeSeeU utilizes a range of technologies to provide its comprehensive functional
 To run this project locally, follow these steps:
 
 1. Clone this repository.
-2. Change `"proxy": "https://eyeseeu.onrender.com"` with `"proxy": http://localhost:5000` in package.json in frontend folder.
+2. Change `"proxy": "https://eyeseeu.onrender.com"` with `"proxy": "http://localhost:5000"` in package.json in frontend folder.
 3. Remove .example from .env and replace the credentials with your credentials.
 4. Install the required dependencies in both the frontend and backend folders usign `npm i` command in both folders 
    (`cd backend` and `cd frontend`).
