@@ -5,8 +5,7 @@ import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
 import examRoutes from "./routes/examRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import path from "path"; // ✅ Import path
-import { fileURLToPath } from "url"; // ✅ Fix for ES modules
+import path from "path";
 
 dotenv.config();
 connectDB();
@@ -14,29 +13,30 @@ connectDB();
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Define __dirname manually (ES Module Fix)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Middleware
+// to parse req boy
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
 app.use("/api/users", userRoutes);
-app.use("/api/exams", examRoutes); // ⚠️ Fixed duplicate route issue
+app.use("/api/users", examRoutes);
 
-// Production Deployment
+// we we are deploying this in production
+// make frontend build then
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist"))); // ✅ Adjusted path
+  const __dirname = path.resolve();
+  // we making front build folder static to serve from this app
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
+  // if we get an routes that are not define by us we show then index html file
+  // every enpoint that is not api/users go to this index file
   app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"))
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
   );
 } else {
   app.get("/", (req, res) => {
-    res.send("<h1>Server is running</h1>");
+    res.send("<h1>server is running </h1>");
   });
 }
 
@@ -46,7 +46,7 @@ app.use(errorHandler);
 
 // Server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`server is running on http://localhost:${port}`);
 });
 
 
