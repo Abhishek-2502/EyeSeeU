@@ -12,6 +12,8 @@ import store from './store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+export const server = "http://localhost:6000";
+
 function App() {
   // const routing = useRoutes(Router);
   const theme = baselightTheme;
