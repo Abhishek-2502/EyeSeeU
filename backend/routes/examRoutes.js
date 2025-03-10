@@ -1,7 +1,31 @@
+// import express from "express";
+
+// import { protect } from "../middleware/authMiddleware.js";
+// import { createExam, getExams } from "../controllers/examController.js";
+// import {
+//   createQuestion,
+//   getQuestionsByExamId,
+// } from "../controllers/quesController.js";
+// import {
+//   getCheatingLogsByExamId,
+//   saveCheatingLog,
+// } from "../controllers/cheatingLogController.js";
+// const examRoutes = express.Router();
+
+// // protecting Exam route using auth middleware protect /api/users/
+// examRoutes.route("/exam").get(protect, getExams).post(protect, createExam);
+// examRoutes.route("/exam/:id").get(protect, getExamById);
+// examRoutes.route("/exam/questions").post(protect, createQuestion);
+
+// examRoutes.route("/exam/questions/:examId").get(protect, getQuestionsByExamId);
+// examRoutes.route("/cheatingLogs/:examId").get(protect, getCheatingLogsByExamId);
+// examRoutes.route("/cheatingLogs/").post(protect, saveCheatingLog);
+
+// export default examRoutes;
 import express from "express";
 
 import { protect } from "../middleware/authMiddleware.js";
-import { createExam, getExams } from "../controllers/examController.js";
+import { createExam, getExams, getExamById } from "../controllers/examController.js"; // ✅ Added getExamById
 import {
   createQuestion,
   getQuestionsByExamId,
@@ -10,13 +34,16 @@ import {
   getCheatingLogsByExamId,
   saveCheatingLog,
 } from "../controllers/cheatingLogController.js";
+
 const examRoutes = express.Router();
 
-// protecting Exam route using auth middleware protect /api/users/
+// Protecting Exam routes using auth middleware
 examRoutes.route("/exam").get(protect, getExams).post(protect, createExam);
+examRoutes.route("/exam/:id").get(protect, getExamById); // ✅ Now properly imported
 examRoutes.route("/exam/questions").post(protect, createQuestion);
 examRoutes.route("/exam/questions/:examId").get(protect, getQuestionsByExamId);
+
 examRoutes.route("/cheatingLogs/:examId").get(protect, getCheatingLogsByExamId);
-examRoutes.route("/cheatingLogs/").post(protect, saveCheatingLog);
+examRoutes.route("/cheatingLogs").post(protect, saveCheatingLog); // ✅ Removed extra slash
 
 export default examRoutes;
