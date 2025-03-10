@@ -5,10 +5,13 @@ import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
 import examRoutes from "./routes/examRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import path from "path";
+
 dotenv.config();
 connectDB();
+
 const app = express();
-const port = process.env.PORT ;
+const port = process.env.PORT || 5000;
 
 // to parse req boy
 app.use(express.json());
