@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import swal from 'sweetalert';
-import { useCreateQuestionMutation, useGetExamsQuery } from 'src/slices/examApiSlice';
+import { useCreateQuestionMutation, useGetExamsQuery, useUpdateTotalQuestionsMutation } from 'src/slices/examApiSlice';
 import { toast } from 'react-toastify';
 
 const AddQuestionForm = () => {
@@ -18,7 +18,11 @@ const AddQuestionForm = () => {
   const [newQuestion, setNewQuestion] = useState('');
   const [newOptions, setNewOptions] = useState(['', '', '', '']);
   const [correctOptions, setCorrectOptions] = useState([false, false, false, false]);
-  const [selectedExamId, setSelectedExamId] = useState('');
+  const [selectedExamId, setSelectedExamId] = useState(0);
+  const [totalQuestions, setTotalQuestions] = useState(0); //
+  const [selectedExam, setSelectedExam] = useState(null);
+  const [updateTotalQuestions] = useUpdateTotalQuestionsMutation();
+
 
   const handleOptionChange = (index) => {
     const updatedCorrectOptions = [...correctOptions];
@@ -29,41 +33,110 @@ const AddQuestionForm = () => {
   const [createQuestion, { isLoading }] = useCreateQuestionMutation();
   const { data: examsData } = useGetExamsQuery();
 
+  // useEffect(() => {
+  //   if (examsData && examsData.length > 0) {
+  //     // setSelectedExamId(examsData[0].examId);
+      
+  //     // console.log(examsData[0].examId, 'examsData[0].examId');
+  //     const firstExam = examsData[0];
+  //     setSelectedExam(firstExam);
+  //     setSelectedExamId(firstExam.examId);
+  //   }
+  // }, [examsData]);
   useEffect(() => {
-    if (examsData && examsData.length > 0) {
-      setSelectedExamId(examsData[0].examId);
-      console.log(examsData[0].examId, 'examsData[0].examId');
+    if (examsData && selectedExamId) {
+      const updatedExam = examsData.find(exam => exam.examId === selectedExamId);
+      if (updatedExam) {
+        setSelectedExam(updatedExam);
+      }
     }
-  }, [examsData]);
+  }, [examsData, selectedExamId]);
 
   const handleAddQuestion = async () => {
+    if (!selectedExam) {
+      swal('', 'Please select an exam.', 'error');
+      return;
+    }
+
+    if (questions.length >= selectedExam.totalQuestions) {
+      swal({
+        title: 'Question Limit Reached!',
+        text: `You have reached the limit of ${selectedExam.totalQuestions} questions. Do you want to increase the limit?`,
+        icon: 'warning',
+        buttons: {
+          increase: "Increase Limit",
+          submit: "Submit Questions",
+        },
+      }).then((value) => {
+
+        if (value==='increase') {
+          const newLimit = selectedExam.totalQuestions + 1;
+          // Update totalQuestions in backend
+          setTotalQuestions(newLimit);
+          setTotalQuestions((prev) => prev + 1);
+          updateTotalQuestions({ examId: selectedExam.examId, totalQuestions: selectedExam.totalQuestions + 1 });
+          setSelectedExam({ ...selectedExam, totalQuestions: newLimit });
+        }
+        else {
+          setQuestions([...questions, newQuestion]);
+          setNewQuestion("");
+        }
+        
+      });
+      return;
+    }
+  
+
     if (newQuestion.trim() === '' || newOptions.some((option) => option.trim() === '')) {
       swal('', 'Please fill out the question and all options.', 'error');
       return;
     }
 
-    const newQuestionObj = {
-      question: newQuestion,
-      options: newOptions.map((option, index) => ({
-        optionText: option,
-        isCorrect: correctOptions[index],
-      })),
-      examId: selectedExamId,
-    };
+  //   const newQuestionObj = {
+  //     question: newQuestion,
+  //     options: newOptions.map((option, index) => ({
+  //       optionText: option,
+  //       isCorrect: correctOptions[index],
+  //     })),
+  //     examId: selectedExamId,
+  //   };
 
-    try {
-      const res = await createQuestion(newQuestionObj).unwrap();
-      if (res) {
-        toast.success('Question added successfully!!!');
-      }
-      setQuestions([...questions, res]);
-      setNewQuestion('');
-      setNewOptions(['', '', '', '']);
-      setCorrectOptions([false, false, false, false]);
-    } catch (err) {
-      swal('', 'Failed to create question. Please try again.', 'error');
-    }
+  //   try {
+  //     const res = await createQuestion(newQuestionObj).unwrap();
+  //     if (res) {
+  //       toast.success('Question added successfully!!!');
+  //     }
+  //     setQuestions([...questions, res]);
+  //     setNewQuestion('');
+  //     setNewOptions(['', '', '', '']);
+  //     setCorrectOptions([false, false, false, false]);
+  //   } catch (err) {
+  //     swal('', 'Failed to create question. Please try again.', 'error');
+  //   }
+  // };
+
+  const newQuestionObj = {
+    question: newQuestion,
+    options: newOptions.map((option, index) => ({
+      optionText: option,
+      isCorrect: correctOptions[index],
+    })),
+    examId: selectedExamId,
   };
+
+  try {
+    const res = await createQuestion(newQuestionObj).unwrap();
+    if (res) {
+      toast.success('Question added successfully!!!');
+    }
+    setQuestions([...questions, res]);
+    setNewQuestion('');
+    setNewOptions(['', '', '', '']);
+    setCorrectOptions([false, false, false, false]);
+  } catch (err) {
+    swal('', 'Failed to create question. Please try again.', 'error');
+  }
+};
 
   const handleSubmitQuestions = () => {
     setQuestions([]);
@@ -79,7 +152,11 @@ const AddQuestionForm = () => {
         value={selectedExamId}
         onChange={(e) => {
           console.log(e.target.value, 'option ID');
+          // setSelectedExamId(e.target.value);
+          const selected = examsData.find((exam) => exam.examId === e.target.value);
           setSelectedExamId(e.target.value);
+          setSelectedExam(selected);
+
         }}
         fullWidth
         sx={{ mb: 2 }}
@@ -170,6 +247,9 @@ const AddQuestionForm = () => {
           Submit Questions
         </Button>
       </Stack>
+      {/* <p>
+        Questions Added: {questions.length}/{totalQuestions}
+      </p> */}
     </div>
   );
 };
