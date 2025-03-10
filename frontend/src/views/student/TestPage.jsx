@@ -25,6 +25,7 @@ const TestPage = () => {
       });
       setSelectedExam(exam);
       setexamDurationInSeconds(exam[0].duration * 60);
+      console.log("Extracted Exam Duration (in seconds):", exam[0].duration * 60);
     }
   }, [userExamdata]);
 
