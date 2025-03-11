@@ -22,31 +22,54 @@ export default function MultipleChoiceQuestion({ questions, saveUserTestScore })
 
   const [isLastQuestion, setIsLastQuestion] = useState(false);
   const [isFinishTest, setisFinishTest] = useState(false);
+  const [userAnswers, setUserAnswers] = useState({}); // Store selected answers
+
 
   useEffect(() => {
     setIsLastQuestion(currentQuestion === questions.length - 1);
-  }, [currentQuestion]);
+  }, [currentQuestion,questions.length]);
 
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
+  const handleOptionSelect = (questionId, selectedOption) => {
+    console.log(questions.length)
+    setUserAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      [questionId]: selectedOption,
+    }));
+    setSelectedOption(selectedOption); 
   };
+  // const handleNextQuestion = () => {
+  //   let isCorrect = false;
+  //   isCorrect =
+  //     questions[currentQuestion].options.find((option) => option.isCorrect)._id === selectedOption;
+  //   if (isCorrect) {
+  //     setScore(score + 1);
+  //     saveUserTestScore();
+  //   }
 
+  //   setSelectedOption(null);
+  //   if (currentQuestion < questions.length - 1) {
+
+  //    console.log(questions.length)
+  //     setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+  //   } else {
+  //     setisFinishTest(true);
+  //   }
+  // };
   const handleNextQuestion = () => {
-    let isCorrect = false;
-    isCorrect =
-      questions[currentQuestion].options.find((option) => option.isCorrect)._id === selectedOption;
-    if (isCorrect) {
-      setScore(score + 1);
-      saveUserTestScore();
+    if (!questions[currentQuestion]) {
+      console.error("Error: Question not found at index", currentQuestion);
+      return;
     }
-
+  
     setSelectedOption(null);
+  
     if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
+      setCurrentQuestion((prevQuestion) => prevQuestion + 1);
     } else {
       setisFinishTest(true);
     }
   };
+  
 
   return (
     <Card>
@@ -62,8 +85,11 @@ export default function MultipleChoiceQuestion({ questions, saveUserTestScore })
             <RadioGroup
               aria-label="quiz"
               name="quiz"
-              value={selectedOption}
-              onChange={handleOptionChange}
+              // value={selectedOption}
+              // onChange={handleOptionChange}
+              value={userAnswers[questions[currentQuestion]._id] || ''}
+              onChange={(event) => handleOptionSelect(questions[currentQuestion]._id, event.target.value)}
+
             >
               {questions[currentQuestion].options.map((option) => (
                 <FormControlLabel
@@ -81,7 +107,8 @@ export default function MultipleChoiceQuestion({ questions, saveUserTestScore })
             variant="contained"
             color="primary"
             onClick={handleNextQuestion}
-            disabled={selectedOption === null}
+            disabled={!userAnswers[questions[currentQuestion]._id]}
+
             style={{ marginLeft: 'auto' }}
           >
             {isLastQuestion ? 'Finish' : 'Next Question'}
