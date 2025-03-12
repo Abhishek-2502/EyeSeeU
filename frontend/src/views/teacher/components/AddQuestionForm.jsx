@@ -289,7 +289,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import swal from 'sweetalert';
-import { useCreateQuestionMutation, useGetExamsQuery, useUpdateTotalQuestionsMutation } from 'src/slices/examApiSlice';
+import { useCreateQuestionMutation, useGetExamsQuery, useUpdateTotalQuestionsMutation ,useFetchQuestionCountQuery,} from 'src/slices/examApiSlice';
 import { toast } from 'react-toastify';
 
 const AddQuestionForm = () => {
@@ -297,7 +297,7 @@ const AddQuestionForm = () => {
   const [newQuestion, setNewQuestion] = useState('');
   const [newOptions, setNewOptions] = useState(['', '', '', '']);
   const [correctOptions, setCorrectOptions] = useState([false, false, false, false]);
-  const [selectedExamId, setSelectedExamId] = useState(0);
+  const [selectedExamId, setSelectedExamId] = useState('');
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [selectedExam, setSelectedExam] = useState(null);
   const [updateTotalQuestions] = useUpdateTotalQuestionsMutation();
@@ -310,7 +310,28 @@ const AddQuestionForm = () => {
 
   const [createQuestion] = useCreateQuestionMutation();
   const { data: examsData } = useGetExamsQuery();
+  
 
+
+  // useEffect(() => {
+  //   if (examsData && selectedExamId) {
+  //     const updatedExam = examsData.find(exam => exam.examId === selectedExamId);
+  //     if (updatedExam) {
+  //       setSelectedExam(updatedExam);
+  //       setTotalQuestions(updatedExam.totalQuestions);
+  //     }
+  //   }
+  // }, [examsData, selectedExamId]);
+
+
+  const { data: questionCountData, refetch: refetchQuestionCount } = useFetchQuestionCountQuery(selectedExamId, { skip: !selectedExamId });
+
+useEffect(() => {
+  if (questionCountData) {
+    setQuestions(new Array(questionCountData.count).fill(null)); // Sync fetched count
+    console.log(`Fetched question count: ${questionCountData.count}`);
+  }
+}, [questionCountData]);
   useEffect(() => {
     if (examsData && selectedExamId) {
       const updatedExam = examsData.find(exam => exam.examId === selectedExamId);
@@ -320,18 +341,15 @@ const AddQuestionForm = () => {
       }
     }
   }, [examsData, selectedExamId]);
-
   const handleAddQuestion = async () => {
-    console.log("this is at the very starting questions length")
-    console.log(questions.length)
-    console.log("totalQuestions")
-    console.log(totalQuestions);
+    const currentQuestionCount = questionCountData?.count || 0; 
+  
     if (!selectedExam) {
       swal('', 'Please select an exam.', 'error');
       return;
     }
 
-    if (questions.length >= totalQuestions) {
+    if (currentQuestionCount  >= totalQuestions) {
       swal({
         title: 'Question Limit Reached!',
         text: `You have reached the limit of ${totalQuestions} questions. Do you want to increase the limit?`,
@@ -342,18 +360,25 @@ const AddQuestionForm = () => {
         },
       }).then(async (value) => {
         if (value === 'increase') {
-          console.log(" this is after increase questions length")
-          console.log(questions.length)
-          console.log("totalQuestions")
-          console.log(totalQuestions);
+
           const newLimit = totalQuestions + 1;
-          await updateTotalQuestions({ examId: selectedExam.examId, totalQuestions: newLimit });
-          setTotalQuestions(newLimit);
-          setSelectedExam({ ...selectedExam, totalQuestions: newLimit });
-          console.log("questions length")
-          console.log(questions.length)
-          console.log("totalQuestions")
-          console.log(totalQuestions);
+            const requestUrl = `/api/users/exam/${selectedExamId}/updateTotalQuestions`;
+
+            console.log(`🔍 Full Request URL: ${requestUrl}`);
+             console.log(`📤 Sending update request: examId=${selectedExamId}, TotalQuestions=${newLimit}`);
+          
+          try {
+            const response = await updateTotalQuestions({ examId: selectedExamId, totalQuestions: newLimit }).unwrap();
+            console.log('Update response:', response);
+            
+            setTotalQuestions(newLimit);
+            setSelectedExam({ ...selectedExam, totalQuestions: newLimit });
+             // ✅ Refetch question count to update UI
+          refetchQuestionCount();
+          } catch (error) {
+            console.error('Failed to update total questions:', error);
+            swal('', 'Failed to update question limit.', 'error');
+          }
         }
       });
       return;
@@ -385,6 +410,10 @@ const AddQuestionForm = () => {
         setNewQuestion('');
         setNewOptions(['', '', '', '']);
         setCorrectOptions([false, false, false, false]);
+         // ✅ Update UI count immediately
+
+      // ✅ Force refetch for verification
+      refetchQuestionCount();
       }
     } catch (err) {
       swal('', 'Failed to create question. Please try again.', 'error');
