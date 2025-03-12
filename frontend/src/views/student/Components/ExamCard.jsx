@@ -7,7 +7,7 @@ import { CardActionArea, Rating, Stack } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 
 const imgUrl =
-  'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNvbXB1dGVyJTIwc2NpZW5jZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80';
+  'https://www.shutterstock.com/shutterstock/videos/1097116195/thumb/1.jpg?ip=x480';
 export default function ExamCard({ exam }) {
   const { examName, duration, totalQuestions, examId, liveDate, deadDate } = exam;
 

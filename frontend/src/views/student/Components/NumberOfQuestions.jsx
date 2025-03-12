@@ -146,7 +146,7 @@ const NumberOfQuestions = ({ questionLength, submitTest, examDurationInSeconds }
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Typography variant="h6">Questions: 1/{totalQuestions}</Typography>
           <Typography variant="h6">Time Left: {formattedTime}</Typography>
-          <Button variant="contained" onClick={submitTest} color="error">
+          <Button variant="contained" onClick={submitTest} color="primary">
             Finish Test
           </Button>
         </Stack>
