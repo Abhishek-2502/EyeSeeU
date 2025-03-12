@@ -49,18 +49,48 @@ const DescriptionAndInstructions = () => {
   const handleCertifyChange = () => {
     setCertify(!certify);
   };
+  // const handleTest = () => {
+  //   // Check if the test date is valid here
+  //   const isValid = true; // Replace with your date validation logic
+  //   console.log('Test link');
+  //   if (isValid) {
+  //     // Replace 'examid' and 'TestId' with the actual values
+  //     navigate(`/exam/${examId}/${testId}`);
+  //   } else {
+  //     // Display an error message or handle invalid date
+  //     toast.error('Test date is not valid.');
+  //   }
+  // };
   const handleTest = () => {
-    // Check if the test date is valid here
-    const isValid = true; // Replace with your date validation logic
-    console.log('Test link');
-    if (isValid) {
-      // Replace 'examid' and 'TestId' with the actual values
-      navigate(`/exam/${examId}/${testId}`);
-    } else {
-      // Display an error message or handle invalid date
-      toast.error('Test date is not valid.');
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+      });
     }
+  
+    // Listen for tab switching
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        toast.error("Tab switching detected! Test will end.");
+        navigate("/test-ended"); 
+        navigate("/exam");// Navigate to a warning page or end the test
+      }
+    });
+  
+    // Listen for exiting full-screen mode
+    document.addEventListener("fullscreenchange", () => {
+      if (!document.fullscreenElement) {
+        toast.error("Full-screen mode exited! Test will end.");
+        navigate("/test-ended"); 
+        navigate("/exam");// Navigate to a warning page or end the test
+      }
+    });
+  
+    // Proceed to the test page
+    const testId = uniqueId();
+    navigate(`/exam/${examId}/${testId}`);
   };
+  
 
   return (
     <Card>

@@ -25,14 +25,17 @@
 import express from "express";
 
 import { protect } from "../middleware/authMiddleware.js";
-import { createExam, getExams, getExamById } from "../controllers/examController.js"; // ✅ Added getExamById
+import { createExam, getExams, getExamById, updateTotalQuestions } from "../controllers/examController.js"; // ✅ Added getExamById
 import {
   createQuestion,
   getQuestionsByExamId,
+  getQuestionCountByExamId
 } from "../controllers/quesController.js";
 import {
   getCheatingLogsByExamId,
   saveCheatingLog,
+
+
 } from "../controllers/cheatingLogController.js";
 
 const examRoutes = express.Router();
@@ -40,10 +43,16 @@ const examRoutes = express.Router();
 // Protecting Exam routes using auth middleware
 examRoutes.route("/exam").get(protect, getExams).post(protect, createExam);
 examRoutes.route("/exam/:id").get(protect, getExamById); // ✅ Now properly imported
+// examRoutes.route("/:examId/updateTotalQuestions").put(protect, updateTotalQuestions);
+examRoutes.route("/exam/:examId/updateTotalQuestions").put(protect, updateTotalQuestions);
+
+
 examRoutes.route("/exam/questions").post(protect, createQuestion);
 examRoutes.route("/exam/questions/:examId").get(protect, getQuestionsByExamId);
+examRoutes.route("/exam/questions/count/:examId").get(protect, getQuestionCountByExamId); // ✅ Added route
+
 
 examRoutes.route("/cheatingLogs/:examId").get(protect, getCheatingLogsByExamId);
-examRoutes.route("/cheatingLogs").post(protect, saveCheatingLog); // ✅ Removed extra slash
+examRoutes.route("/cheatingLogs").post(protect, saveCheatingLog); 
 
 export default examRoutes;

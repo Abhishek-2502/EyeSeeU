@@ -19,8 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
-app.use("/api/users", userRoutes);
 app.use("/api/users", examRoutes);
+
+app.use("/api/users", userRoutes);
 
 // we we are deploying this in production
 // make frontend build then
@@ -43,6 +44,19 @@ if (process.env.NODE_ENV === "production") {
 // Custom Middlewares
 app.use(notFound);
 app.use(errorHandler);
+app._router.stack.forEach((middleware) => {
+  if (middleware.route) {
+    console.log(`Route: ${Object.keys(middleware.route.methods)[0].toUpperCase()} ${middleware.route.path}`);
+  } else if (middleware.name === 'router') {
+    middleware.handle.stack.forEach((handler) => {
+      if (handler.route) {
+        console.log(`Route: ${Object.keys(handler.route.methods)[0].toUpperCase()} ${handler.route.path}`);
+      }
+    });
+  }
+});
+
+
 
 // Server
 app.listen(port, () => {
