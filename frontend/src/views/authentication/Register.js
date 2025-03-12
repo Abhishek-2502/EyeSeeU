@@ -105,7 +105,7 @@ const Register = () => {
             alignItems="center"
           >
             <Card elevation={9} sx={{ p: 2, zIndex: 1, width: '100%', maxWidth: '500px' }}>
-              <Box display="flex" alignItems="center" justifyContent="center">
+              <Box>
                 <Logo />
               </Box>
               <AuthRegister
