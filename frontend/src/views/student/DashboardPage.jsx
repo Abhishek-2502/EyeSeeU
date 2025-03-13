@@ -3,8 +3,8 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recha
 import { Card } from "@mui/material";
 
 const statsData = [
-  { name: "Exams", count: 203 },
-  { name: "Students", count: 305 }
+  { name: "Exams", count: 15 },
+  { name: "Students", count: 60 }
 ];
 
 export default function ProctorDashboard() {
@@ -16,8 +16,6 @@ export default function ProctorDashboard() {
         <p className="text-lg mt-4 text-gray-700 leading-relaxed">
           Our platform offers a secure and seamless online examination experience with real-time monitoring and in-depth analytics.
           Institutions can conduct fair and transparent exams effortlessly.
-        </p>
-        <p className="text-lg mt-2 text-gray-700 leading-relaxed">
           With AI-driven proctoring, suspicious activity detection, and an intuitive interface, we ensure integrity in online assessments.
         </p>
       </Card>
@@ -25,19 +23,12 @@ export default function ProctorDashboard() {
       {/* Total Exams and Students Cards (Side by Side) */}
       <div className="flex justify-center w-full space-x-6 max-w-4xl">
         <Card className="p-8 text-center shadow-lg rounded-2xl bg-white transform hover:scale-105 transition duration-300 ease-in-out">
-          <h2 className="text-2xl font-bold text-green-700">Total Exams</h2>
-          <p className="text-5xl font-extrabold text-green-900">203</p>
-        </Card>
-
-        <Card className="p-8 text-center shadow-lg rounded-2xl bg-white transform hover:scale-105 transition duration-300 ease-in-out">
-          <h2 className="text-2xl font-bold text-green-700">Total Students</h2>
-          <p className="text-5xl font-extrabold text-green-900">305</p>
+          <h2 className="text-2xl font-bold text-green-700">Total Exams : 15 &nbsp;|&nbsp; Total Students : 60</h2>
         </Card>
       </div>
 
       {/* Graph Card */}
       <Card className="p-8 col-span-1 md:col-span-2 shadow-2xl rounded-3xl bg-white max-w-4xl">
-        <h2 className="text-2xl font-bold text-green-700 mb-6 text-center">Statistics</h2>
         <ResponsiveContainer width="100%" height={350}>
           <BarChart data={statsData}>
             <XAxis dataKey="name" className="text-gray-700 font-medium" />
