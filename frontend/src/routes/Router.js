@@ -9,7 +9,7 @@ const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const ExamLayout = Loadable(lazy(() => import('../layouts/full/ExamLayout')));
 
 /* ****Pages***** */
-// const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')));
+const DashboardPage = Loadable(lazy(() => import('../views/student/DashboardPage')));
 const SamplePage = Loadable(lazy(() => import('../views/sample-page/SamplePage')));
 const Success = Loadable(lazy(() => import('../views/Success')));
 // const Icons = Loadable(lazy(() => import('../views/icons/Icons')));
@@ -44,7 +44,7 @@ const Router = createBrowserRouter(
         {/* // Main layout */}
         <Route path="/" element={<FullLayout />}>
           <Route index={true} path="/" element={<Navigate to="/dashboard" />} />
-          <Route path="/dashboard" exact={true} element={<ExamPage />} />
+          <Route path="/dashboard" exact={true} element={<DashboardPage />} />
           <Route path="/sample-page" exact={true} element={<SamplePage />} />
           <Route path="/Success" exact={true} element={<Success />} />
           <Route path="/exam" exact={true} element={<ExamPage />} />
