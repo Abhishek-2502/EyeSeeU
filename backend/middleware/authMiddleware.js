@@ -2,10 +2,11 @@ import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 
+
 const protect = asyncHandler(async (req, res, next) => {
   // because of cookie parser we able to use this here
   let token = req.cookies.jwt;
-
+// console.log(updateTotalQuestions)
   // cookie present
   if (token) {
     try {

@@ -15,6 +15,7 @@ const getQuestionsByExamId = asyncHandler(async (req, res) => {
   res.status(200).json(questions);
 });
 
+
 const createQuestion = asyncHandler(async (req, res) => {
   const { question, options, examId } = req.body;
 
@@ -37,5 +38,18 @@ const createQuestion = asyncHandler(async (req, res) => {
     throw new Error("Invalid Question Data");
   }
 });
+const getQuestionCountByExamId = asyncHandler(async (req, res) => {
+  const { examId } = req.params;
+  console.log("🔹 Exam ID for Count:", examId);
 
-export { getQuestionsByExamId, createQuestion };
+  if (!examId) {
+    return res.status(400).json({ error: "examId is missing or invalid" });
+  }
+
+  const count = await Question.countDocuments({ examId: req.params.examId});
+  console.log("🔹 Total Questions:", count);
+
+  res.status(200).json({ count });
+});
+
+export { getQuestionsByExamId, createQuestion, getQuestionCountByExamId  };

@@ -6,7 +6,7 @@ import BlankCard from 'src/components/shared/BlankCard';
 import MultipleChoiceQuestion from './Components/MultipleChoiceQuestion';
 import NumberOfQuestions from './Components/NumberOfQuestions';
 import WebCam from './Components/WebCam';
-import { useGetExamsQuery, useGetQuestionsQuery } from '../../slices/examApiSlice';
+import { useGetExamsQuery, useGetQuestionsQuery, useSubmitUserAnswersMutation } from '../../slices/examApiSlice';
 import { useSaveCheatingLogMutation } from 'src/slices/cheatingLogApiSlice';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -17,6 +17,10 @@ const TestPage = () => {
   const [selectedExam, setSelectedExam] = useState([]);
   const [examDurationInSeconds, setexamDurationInSeconds] = useState(0);
   const { data: userExamdata } = useGetExamsQuery();
+   // Store selected answers
+  const [userAnswers, setUserAnswers] = useState({}); // Store selected answers
+
+
 
   useEffect(() => {
     if (userExamdata) {
@@ -35,6 +39,7 @@ const TestPage = () => {
   const navigate = useNavigate();
 
   const [saveCheatingLogMutation] = useSaveCheatingLogMutation();
+  const [submitUserAnswers] = useSubmitUserAnswersMutation();
   const { userInfo } = useSelector((state) => state.auth);
   const [cheatingLog, setCheatingLog] = useState({
     noFaceCount: 0,
@@ -52,25 +57,49 @@ const TestPage = () => {
     }
   }, [data]);
 
+  // const handleTestSubmission = async () => {
+  //   try {
+  //     setCheatingLog((prevLog) => ({
+  //       ...prevLog,
+  //       username: userInfo.name,
+  //       email: userInfo.email,
+  //     }));
+
+  //     await saveCheatingLog(cheatingLog);
+
+  //     await saveCheatingLogMutation(cheatingLog).unwrap();
+
+  //     toast.success('User Logs Saved!!');
+
+  //     navigate(`/Success`);
+  //   } catch (error) {
+  //     console.log('cheatlog: ', error);
+  //   }
+  // };
   const handleTestSubmission = async () => {
     try {
-      setCheatingLog((prevLog) => ({
-        ...prevLog,
+      console.log("User Answers: ", userAnswers); 
+      const updatedLog = {
+        ...cheatingLog,
         username: userInfo.name,
         email: userInfo.email,
-      }));
-
-      await saveCheatingLog(cheatingLog);
-
-      await saveCheatingLogMutation(cheatingLog).unwrap();
-
-      toast.success('User Logs Saved!!');
-
+      };
+      setCheatingLog(updatedLog);
+  
+      await saveCheatingLogMutation(updatedLog).unwrap();
+      toast.success("Cheating log saved!");
+  
+      // Send selected answers to backend
+      await submitUserAnswers(userAnswers);
+  
+      toast.success("Test submitted successfully!");
       navigate(`/Success`);
     } catch (error) {
-      console.log('cheatlog: ', error);
+      console.error("Error submitting test:", error);
+      toast.error("Failed to submit the test. Please try again.");
     }
   };
+  
   const saveUserTestScore = () => {
     setScore(score + 1);
   };
@@ -96,7 +125,14 @@ const TestPage = () => {
                 {isLoading ? (
                   <CircularProgress />
                 ) : (
-                  <MultipleChoiceQuestion questions={data} saveUserTestScore={saveUserTestScore} />
+                  // <MultipleChoiceQuestion questions={data} saveUserTestScore={saveUserTestScore} />
+                  <MultipleChoiceQuestion 
+                    questions={data || []} 
+                    saveUserTestScore={saveUserTestScore} 
+                    userAnswers={userAnswers} 
+                    setUserAnswers={setUserAnswers} 
+                            />
+
                 )}
               </Box>
             </BlankCard>
