@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
-app.use("/api/users", examRoutes);
+app.use("/api/exams", examRoutes);
 
 app.use("/api/users", userRoutes);
 
