@@ -23,8 +23,7 @@ app.use("/api/exams", examRoutes);
 
 app.use("/api/users", userRoutes);
 
-// we we are deploying this in production
-// make frontend build then
+// we we are deploying this in production make frontend build then
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.resolve();
   // we making front build folder static to serve from this app
