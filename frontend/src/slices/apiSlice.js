@@ -1,8 +1,8 @@
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://eyeseeu-1.onrender.com/api' || 'http://localhost:5000/api',
-  credentials: 'include',
+  baseUrl: 'http://localhost:5000/api',
+  credentials: 'include', // if you're using cookies with authentication
 });
 
 

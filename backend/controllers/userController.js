@@ -58,12 +58,14 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
-  res.cookie("jwt", token, {
+  // Clearing the JWT cookie by setting its value to an empty string and expiration time to past
+  res.cookie("jwt", "", {
     httpOnly: true,
-    secure: process.env.NODE_ENV !== "development",
-    sameSite: process.env.NODE_ENV !== "development" ? "None" : "Lax", 
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-  });  
+    secure: process.env.NODE_ENV !== "development", // Ensure secure flag for production
+    sameSite: process.env.NODE_ENV !== "development" ? "None" : "Lax",
+    expires: new Date(0), // Set expiry date to past to clear the cookie
+  });
+
   res.status(200).json({ message: "User logged out" });
 });
 
