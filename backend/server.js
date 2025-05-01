@@ -19,7 +19,7 @@ const port = process.env.PORT || 5000;
 
 
 app.use(cors({
-  origin: "http://50.19.10.187:3000", // your frontend URL
+  origin: "https://eye-see-u.vercel.app/", // your frontend URL
   credentials: true, // allow cookies and credentials
 }));
 
