@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import examRoutes from "./routes/examRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import path from "path";
+import cors from "cors";
 
 
 
@@ -30,9 +31,11 @@ app.use(cookieParser());
 
 
 // Routes
-app.use("/api/users", examRoutes);
+// app.use("/api/users", examRoutes);
 
-app.use("/api/users", userRoutes);
+// app.use("/api/users", userRoutes);
+app.use("/api/exams", examRoutes);  // make examRoutes distinct
+app.use("/api/users", userRoutes);  // keep user routes clean
 
 // we we are deploying this in production make frontend build then
 if (process.env.NODE_ENV === "production") {
