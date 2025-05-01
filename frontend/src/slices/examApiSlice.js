@@ -51,7 +51,7 @@
 import { apiSlice } from './apiSlice';
 
 // Define the base URL for the exams API
-const EXAMS_URL = '/api/users';
+const EXAMS_URL = 'exams';
 console.log("EXAMS_URL:", EXAMS_URL);
 
 
