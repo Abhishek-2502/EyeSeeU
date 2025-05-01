@@ -417,7 +417,7 @@ useEffect(() => {
       }
     } catch (err) {
       swal('', 'Failed to create question. Please try again.', 'error');
-    }
+    } 
   };
 
   return (

@@ -76,6 +76,31 @@ const DescriptionAndInstructions = () => {
         navigate("/exam");// Navigate to a warning page or end the test
       }
     });
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", e => {
+      if (
+        e.key === "F12" || 
+        (e.ctrlKey && e.shiftKey && ["I", "J", "C", "K"].includes(e.key)) || 
+        (e.ctrlKey && e.key === "U")
+      ) {
+        e.preventDefault();
+      }
+    });
+    
+    // window.onblur = () => {
+    //   alert("You left the test window. This will be reported.");
+    //   // you can log this or flag the student
+    // };
+    // document.addEventListener("visibilitychange", () => {
+    //   if (document.hidden) {
+    //     alert("You left the test tab or minimized the browser!");
+    //     // log this to server
+    //   }
+    // });
+    
+
+    document.addEventListener("copy", e => e.preventDefault());
+
   
     // Listen for exiting full-screen mode
     document.addEventListener("fullscreenchange", () => {

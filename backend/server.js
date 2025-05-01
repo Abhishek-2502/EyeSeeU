@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import dotenv from "dotenv";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
@@ -7,16 +8,26 @@ import examRoutes from "./routes/examRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import path from "path";
 
+
+
 dotenv.config();
 connectDB();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+
+app.use(cors({
+  origin: "http://localhost:3000", // your frontend URL
+  credentials: true, // allow cookies and credentials
+}));
+
 // to parse req boy
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+
 
 // Routes
 app.use("/api/users", examRoutes);
