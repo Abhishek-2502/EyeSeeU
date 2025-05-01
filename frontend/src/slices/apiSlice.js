@@ -15,10 +15,11 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// Create the API slice
 export const apiSlice = createApi({
-  reducerPath: 'api', // Optional: You can rename this if needed
   baseQuery,
-  tagTypes: ['User', 'Exam'], // Add all tags you'll use for caching/invalidation
-  endpoints: (builder) => ({}), // Add endpoints later here
+  tagTypes: ['User'],
+  // it like a prent to other api
+  // it a build in builder
+  endpoints: (builder) => ({}),
 });
+
