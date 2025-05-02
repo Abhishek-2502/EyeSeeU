@@ -169,18 +169,18 @@ sudo apt update
 ```bash
 sudo apt install -y mongodb-mongosh
 ```
-
-5. Download the global CA bundle  
+#### Pem Key and URL for DocumentDB:
+1. Download the global CA bundle  
 ```bash
 wget https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
 ```
 
-6. Connect to DocumentDB using mongosh  
+2. Connect to DocumentDB using mongosh  
 ```bash
 mongosh docdb-2025-05-02-07-17-43.cluster-cqziismi6ulk.us-east-1.docdb.amazonaws.com:27017 --tls --tlsCAFile global-bundle.pem --retryWrites=false --username Abhishek --password 12345678
 ```
 
-7. Connection URI  
+3. Connection URI  
 ```bash
 mongodb://Abhishek:12345678@docdb-2025-05-02-07-17-43.cluster-cqziismi6ulk.us-east-1.docdb.amazonaws.com:27017/?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
 ```
