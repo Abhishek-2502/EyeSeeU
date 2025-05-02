@@ -12,18 +12,21 @@ services:
   frontend:
     build: ./frontend
     container_name: eyeseeu-frontend
-    # ports:
-      # - "3000:3000"  # Only for internal use
+    command: npm run build   # Ensures the frontend is built before nginx access
     networks:
       - app-network
+    # You can optionally use volume to persist build outputs for nginx
+    volumes:
+      - ./frontend/build:/app/build
 
   nginx:
     build:
-      context: ./nginx  # This sets the build context to the nginx directory
+      context: ./nginx
     container_name: nginx-reverse-proxy
     ports:
       - "80:80"
     depends_on:
+      - frontend
       - backend
     restart: always
     networks:
