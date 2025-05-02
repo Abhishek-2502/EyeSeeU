@@ -5,10 +5,15 @@ EyeSeeU is an Automated Exam Proctoring System (AEPS) developed with cutting-edg
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
-  - [Backend](#backend)
   - [Frontend](#frontend)
+  - [Backend](#backend)
+  - [Database](#database)
+  - [Artificial Intelligence](#artificial-intelligence)
+  - [DevOps & Deployment](#devOps-&-deployment)
 
-- [How to Run](#how-to-run)
+- [How to Run the Project Locally](#how-to-run-the-project-locally)
+- [Run on HTTP When Deployed](#run-on-hTTP-when-deployed)
+- [DocumentDB (AWS)](#documentDB-(AWS))
 - [License](#license)
 - [Contributors](#contributors)
 
@@ -50,9 +55,6 @@ EyeSeeU utilizes a range of technologies to provide its comprehensive functional
 - **Nginx** – High-performance web server and reverse proxy used for load balancing, serving static content, and improving application performance.
 - **AWS** – Used various AWS services for scalable and secure cloud deployment, including EC2 (virtual servers), Security Groups (firewall configuration), Auto Scaling Groups (automatic instance scaling), Load Balancers (traffic distribution), Elastic IPs (static IP allocation), and DocumentDB (managed NoSQL database service).
 
-Here’s a cleaner and more professional version of your **"How to Run"** section with improved grammar, formatting, and clarity:
-
----
 
 ## How to Run the Project Locally
 
@@ -119,15 +121,11 @@ Ensure that:
   npm start
   ```
 
-Here's the updated section with an image included and all instructions clearly laid out:
-
----
-
 ## Run on HTTP When Deployed
 
 If you have deployed your app on **HTTP** (not HTTPS) and features like **camera access**, **microphone**, or **geolocation** are blocked, you can override Chrome's security settings:
 
-### 🛠️ Steps to Allow Insecure HTTP Origin
+### Steps to Allow Insecure HTTP Origin
 
 1. Open **Google Chrome**.
 2. Visit this URL:
@@ -148,7 +146,7 @@ If you have deployed your app on **HTTP** (not HTTPS) and features like **camera
 
 ![chrome-flag-setting](Images/HTTP_Camera_Issue.png)
 
-## DocumentDB (AWS):
+## DocumentDB (AWS)
 
 #### Install Mongoose on EC2:
 
