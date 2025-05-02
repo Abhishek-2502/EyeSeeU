@@ -8,9 +8,6 @@ import examRoutes from "./routes/examRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import path from "path";
 
-
-
-
 dotenv.config();
 connectDB();
 
@@ -21,6 +18,7 @@ const port = process.env.PORT || 5000;
 app.use(cors({
   // origin: "http://50.19.10.187", // frontend URL (Nginx server)
   origin: "http://50.19.10.187:3000", // frontend URL
+  // origin: "http://localhost:3000", // frontend URL
   credentials: true, // allow cookies and credentials
 }));
 
@@ -32,26 +30,24 @@ app.use(cookieParser());
 
 
 // Routes
-// app.use("/api/users", examRoutes);
 
-// app.use("/api/users", userRoutes);
-app.use("/api/exams", examRoutes);  // make examRoutes distinct
-app.use("/api/users", userRoutes);  // keep user routes clean
+app.use("/api/exams", examRoutes);  
+app.use("/api/users", userRoutes);  
 
-// we we are deploying this in production make frontend build then
 if (process.env.NODE_ENV === "production") {
+  console.log("Production mode");
   const __dirname = path.resolve();
-  // we making front build folder static to serve from this app
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  
+  // Serve static files from frontend build directory
+  app.use(express.static(path.join(__dirname, "../frontend", "build")));
 
-  // if we get an routes that are not define by us we show then index html file
-  // every enpoint that is not api/users go to this index file
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
-  );
+  // Handle client-side routing - return index.html for all non-API routes
+  app.get(/^\/(?!api).*/, (req, res) => {  // Regex to exclude /api routes
+    res.sendFile(path.join(__dirname, "../frontend", "build", "index.html"));
+  });
 } else {
   app.get("/", (req, res) => {
-    res.send("<h1>server is running </h1>");
+    res.send("<h1>Server is running</h1>");
   });
 }
 
