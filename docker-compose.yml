@@ -15,13 +15,12 @@ services:
     command: npm run build   # Ensures the frontend is built before nginx access
     networks:
       - app-network
-    # You can optionally use volume to persist build outputs for nginx
     volumes:
-      - ./frontend/build:/app/build
+      - ./frontend/build:/app/build  # Ensures the frontend build folder is available for nginx
 
   nginx:
     build:
-      context: ./nginx
+      context: .  # Set the build context to the root directory (where frontend folder exists)
     container_name: nginx-reverse-proxy
     ports:
       - "80:80"
