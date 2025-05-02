@@ -9,11 +9,11 @@ EyeSeeU is an Automated Exam Proctoring System (AEPS) developed with cutting-edg
   - [Backend](#backend)
   - [Database](#database)
   - [Artificial Intelligence](#artificial-intelligence)
-  - [DevOps & Deployment](#devops-&-deployment)
+  - [DevOps and Deployment](#devops-and-deployment)
 
 - [How to Run the Project Locally](#how-to-run-the-project-locally)
 - [Run on HTTP When Deployed](#run-on-http-when-deployed)
-- [DocumentDB (AWS)](#documentdb-(aws))
+- [AWS DocumentDB](#aws-documentdb)
 - [License](#license)
 - [Contributors](#contributors)
 
@@ -46,7 +46,7 @@ EyeSeeU utilizes a range of technologies to provide its comprehensive functional
 ### **Artificial Intelligence**
 - **TensorFlow.js** – A JavaScript library for running machine learning models directly in the browser.  
 
-### **DevOps & Deployment**
+### **DevOps and Deployment**
 
 - **Git** – Version control system for tracking code changes.
 - **GitHub** – Cloud-based platform for source code management and collaboration.
@@ -146,7 +146,7 @@ If you have deployed your app on **HTTP** (not HTTPS) and features like **camera
 
 ![chrome-flag-setting](Images/HTTP_Camera_Issue.png)
 
-## DocumentDB (AWS)
+## AWS DocumentDB
 
 #### Install Mongoose on EC2:
 
