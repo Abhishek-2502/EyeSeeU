@@ -64,6 +64,45 @@ To run this project locally, follow these steps:
 ## Run on HTTP:
 chrome://flags/#unsafely-treat-insecure-origin-as-secure
 
+## DocumentDB (AWS):
+
+#### INSTALL MONGOOSE ON EC2:
+
+1. Import MongoDB public GPG key  
+```bash
+wget -qO - https://pgp.mongodb.com/server-6.0.asc | sudo apt-key add -
+```
+
+2. Add the MongoDB repository  
+```bash
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+```
+
+3. Update package lists  
+```bash
+sudo apt update
+```
+
+4. Install mongosh (standalone shell package)  
+```bash
+sudo apt install -y mongodb-mongosh
+```
+
+5. Download the global CA bundle  
+```bash
+wget https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
+```
+
+6. Connect to DocumentDB using mongosh  
+```bash
+mongosh docdb-2025-05-02-07-17-43.cluster-cqziismi6ulk.us-east-1.docdb.amazonaws.com:27017 --tls --tlsCAFile global-bundle.pem --retryWrites=false --username Abhishek --password 12345678
+```
+
+7. Connection URI  
+```bash
+mongodb://Abhishek:12345678@docdb-2025-05-02-07-17-43.cluster-cqziismi6ulk.us-east-1.docdb.amazonaws.com:27017/?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
