@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Expose frontend port
-EXPOSE 3000
+# EXPOSE 3000
 
 # Start the React app
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
