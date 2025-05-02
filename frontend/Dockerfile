@@ -13,6 +13,9 @@ RUN npm install
 # Copy app files
 COPY . .
 
+# Build the frontend (React app)
+RUN npm run build
+
 # Expose frontend port
 EXPOSE 3000
 
