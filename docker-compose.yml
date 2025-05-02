@@ -21,7 +21,7 @@ services:
   nginx:
     build:
       context: .  # Set the build context to the root directory (where frontend folder exists)
-      dockerfile: Dockerfile.nginx  # Specify the Dockerfile for nginx
+      dockerfile: nginx/Dockerfile  # Specify the Dockerfile for nginx
     container_name: nginx-reverse-proxy
     ports:
       - "80:80"
