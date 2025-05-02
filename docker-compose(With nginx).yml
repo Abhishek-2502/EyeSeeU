@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+  backend:
+    build: ./backend
+    container_name: eyeseeu-backend
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: eyeseeu-frontend
+    command: sh -c "npm run build && cp -r build/. /usr/share/nginx/html/"
+    volumes:
+      - nginx-static:/usr/share/nginx/html
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx-reverse-proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - nginx-static:/usr/share/nginx/html
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  nginx-static:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

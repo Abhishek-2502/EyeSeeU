@@ -14,8 +14,6 @@ RUN npm install
 # Copy app files
 COPY . .
 
-# Expose frontend port
-EXPOSE 3000
+# Build the frontend for nginx(React app) 
+RUN npm run build
 
-# Start the React app
-CMD ["npm", "start"]
