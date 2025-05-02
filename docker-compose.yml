@@ -12,22 +12,24 @@ services:
   frontend:
     build: ./frontend
     container_name: eyeseeu-frontend
-    command: npm run build   # Ensures the frontend is built before nginx access
+    command: sh -c "npm run build && cp -r build /app/final-build"  # Build and copy
+    volumes:
+      - ./frontend/final-build:/app/final-build  # Mount the built files
     networks:
       - app-network
-    volumes:
-      - ./frontend/build:/app/build  # Ensures the frontend build folder is available for nginx
 
   nginx:
     build:
-      context: .  # Set the build context to the root directory (where frontend folder exists)
-      dockerfile: Dockerfile.nginx  # Specify the Dockerfile for nginx
+      context: .
+      dockerfile: Dockerfile.nginx
     container_name: nginx-reverse-proxy
     ports:
       - "80:80"
     depends_on:
       - frontend
       - backend
+    volumes:
+      - ./frontend/final-build:/usr/share/nginx/html  # Use the built files
     restart: always
     networks:
       - app-network
