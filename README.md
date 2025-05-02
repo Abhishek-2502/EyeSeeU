@@ -9,11 +9,11 @@ EyeSeeU is an Automated Exam Proctoring System (AEPS) developed with cutting-edg
   - [Backend](#backend)
   - [Database](#database)
   - [Artificial Intelligence](#artificial-intelligence)
-  - [DevOps & Deployment](#devOps-&-deployment)
+  - [DevOps & Deployment](#devops-&-deployment)
 
 - [How to Run the Project Locally](#how-to-run-the-project-locally)
-- [Run on HTTP When Deployed](#run-on-hTTP-when-deployed)
-- [DocumentDB (AWS)](#documentDB-(AWS))
+- [Run on HTTP When Deployed](#run-on-http-when-deployed)
+- [DocumentDB (AWS)](#documentdb-(aws))
 - [License](#license)
 - [Contributors](#contributors)
 
