@@ -5,7 +5,7 @@ services:
     build: ./backend
     container_name: eyeseeu-backend
     ports:
-      - "5000:5000"  # Backend API will be exposed on EC2 IP:5000 for internal access
+      - "5000:5000"  # Exposed only if needed
     restart: always
     networks:
       - app-network
@@ -13,22 +13,21 @@ services:
   frontend:
     build: ./frontend
     container_name: eyeseeu-frontend
-    # ports:
-      # - "3000:3000"  # Only for internal use
-    # depends_on:
-      # - backend
+    # React app will be built and copied to nginx during nginx build
     restart: always
     networks:
       - app-network
 
   nginx:
-    build: ./nginx
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
     container_name: nginx-reverse-proxy
     ports:
-      - "80:80"  # Exposes Nginx on port 80 for public access
+      - "80:80"  # Public-facing
     depends_on:
-      - frontend
       - backend
+      - frontend
     restart: always
     networks:
       - app-network
