@@ -1,11 +1,10 @@
 version: "3"
-
 services:
   backend:
     build: ./backend
     container_name: eyeseeu-backend
     ports:
-      - "5000:5000"  # Exposed only if needed
+      - "5000:5000"
     restart: always
     networks:
       - app-network
@@ -13,21 +12,19 @@ services:
   frontend:
     build: ./frontend
     container_name: eyeseeu-frontend
-    # React app will be built and copied to nginx during nginx build
-    restart: always
+    # ports:
+      # - "3000:3000"  # Only for internal use
     networks:
       - app-network
 
   nginx:
     build:
-      context: .
-      dockerfile: nginx/Dockerfile
+      context: ./nginx  # This sets the build context to the nginx directory
     container_name: nginx-reverse-proxy
     ports:
-      - "80:80"  # Public-facing
+      - "80:80"
     depends_on:
       - backend
-      - frontend
     restart: always
     networks:
       - app-network
