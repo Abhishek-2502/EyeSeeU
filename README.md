@@ -73,8 +73,8 @@ Create a `.env` file inside the `backend` directory with the following content:
 
 ```env
 # Node.js environment (development, production, etc.)
-# NODE_ENV=development
-NODE_ENV=production
+NODE_ENV=development
+# NODE_ENV=production
 
 # Port for the backend server
 PORT=5000
