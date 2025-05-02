@@ -1,20 +1,22 @@
-version: "3"
+version: "3.8"
 services:
   backend:
     build: ./backend
     container_name: eyeseeu-backend
     ports:
       - "5000:5000"
-    restart: always
+    restart: unless-stopped
     networks:
       - app-network
 
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: eyeseeu-frontend
-    command: sh -c "npm run build && cp -r build /app/final-build"  # Build and copy
+    command: sh -c "npm run build && cp -r build/* /usr/share/nginx/html/"
     volumes:
-      - ./frontend/final-build:/app/final-build  # Mount the built files
+      - nginx-static:/usr/share/nginx/html
     networks:
       - app-network
 
@@ -29,10 +31,13 @@ services:
       - frontend
       - backend
     volumes:
-      - ./frontend/final-build:/usr/share/nginx/html  # Use the built files
-    restart: always
+      - nginx-static:/usr/share/nginx/html
+    restart: unless-stopped
     networks:
       - app-network
+
+volumes:
+  nginx-static:
 
 networks:
   app-network:
