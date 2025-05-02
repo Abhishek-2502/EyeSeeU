@@ -13,7 +13,11 @@ services:
   frontend:
     build: ./frontend
     container_name: eyeseeu-frontend
-    restart: no
+    # ports:
+      # - "3000:3000"  # Only for internal use
+    # depends_on:
+      # - backend
+    # restart: always
     networks:
       - app-network
 
@@ -23,6 +27,7 @@ services:
     ports:
       - "80:80"  # Exposes Nginx on port 80 for public access
     depends_on:
+      # - frontend
       - backend
     restart: always
     networks:
