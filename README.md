@@ -61,6 +61,9 @@ To run this project locally, follow these steps:
 5. Start the server using `node server.js` in the backend folder (`cd backend`).
 6. Start the React app using `npm start` in the frontend folder (`cd frontend`).
 
+## Run on HTTP:
+chrome://flags/#unsafely-treat-insecure-origin-as-secure
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
