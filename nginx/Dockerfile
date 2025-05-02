@@ -5,10 +5,11 @@ FROM nginx:alpine
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copy custom Nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy the built frontend files from the frontend container
-COPY ../frontend/app/build /usr/share/nginx/html
+# COPY --from=eyeseeu-frontend /app/build /usr/share/nginx/html
+COPY ../frontend/build /usr/share/nginx/html
 
 # COPY --from=frontend /app/build /usr/share/nginx/html
 

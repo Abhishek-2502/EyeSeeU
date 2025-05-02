@@ -8,12 +8,13 @@ WORKDIR /app
 
 # Copy and install dependencies
 COPY package*.json ./
+
 RUN npm install
 
 # Copy app files
 COPY . .
 
-# Build the frontend (React app)
+# Build the frontend for nginx(React app) 
 RUN npm run build
 
 # Expose frontend port
