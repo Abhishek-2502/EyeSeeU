@@ -185,6 +185,13 @@ mongosh docdb-2025-05-02-07-17-43.cluster-cqziismi6ulk.us-east-1.docdb.amazonaws
 mongodb://Abhishek:12345678@docdb-2025-05-02-07-17-43.cluster-cqziismi6ulk.us-east-1.docdb.amazonaws.com:27017/?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
 ```
 
+## Resources
+
+- [New_PPT](https://www.canva.com/design/DAGl0tyzCt4/Fply4C32CATDCZsF9HkwbQ/edit?utm_content=DAGl0tyzCt4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+- [Old_PPT](https://www.canva.com/design/DAGfFMeVG3Q/GKkA_69gq87RmlMOxXYVmA/edit)
+- [Poster](https://www.canva.com/design/DAGlcfhjtzc/HWj8ZytUnVur3xlljq9dCg/edit)
+
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
