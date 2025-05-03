@@ -13,9 +13,6 @@ RUN npm install
 # Copy app files
 COPY . .
 
-# Copy global-bundle.pem directly into the container
-COPY global-bundle.pem /app/global-bundle.pem
-
 # Expose backend port (adjust as needed)
 EXPOSE 5000
 

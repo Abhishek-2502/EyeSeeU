@@ -154,7 +154,7 @@ If you have deployed your app on **HTTP** (not HTTPS) and features like **camera
 ```bash
 wget -qO - https://pgp.mongodb.com/server-6.0.asc | sudo apt-key add -
 ```
-
+  
 2. Add the MongoDB repository  
 ```bash
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
