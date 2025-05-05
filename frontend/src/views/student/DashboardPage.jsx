@@ -33,7 +33,7 @@ export default function ProctorDashboard() {
         }}
       >
         <Typography variant="h3" color="primary" fontWeight="bold" gutterBottom>
-          Welcome to Our Proctoring System
+          Welcome to Our Proctoring Systemmm
         </Typography>
         <Typography variant="body1" color="textSecondary" mt={2}>
           Our platform offers a secure and seamless online examination experience with real-time monitoring and in-depth analytics.
