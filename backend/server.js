@@ -17,8 +17,8 @@ const port = process.env.PORT || 5000;
 
 app.use(cors({
   // origin: "http://50.19.10.187", // frontend URL (Nginx server)
-  origin: "http://50.19.10.187:3000", // frontend URL (For Normal EC2)
-  // origin: "http://localhost:3000", // frontend URL (For Localhost)
+  // origin: "http://50.19.10.187:3000", // frontend URL (For Normal EC2)
+  origin: "http://localhost:3000", // frontend URL (For Localhost)
   credentials: true, // allow cookies and credentials
 }));
 
